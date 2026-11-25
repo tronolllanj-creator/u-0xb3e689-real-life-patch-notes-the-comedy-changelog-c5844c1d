@@ -4,17 +4,19 @@ import sys
 
 ENTRY_LINE = 'v1.0.4: Fixed a bug where blinking caused a temporary loss of consciousness and visual feed.'
 
-def validate():
-    if not (1 <= len(ENTRY_LINE) <= 160):
-        raise ValueError("ENTRY_LINE length must be between 1 and 160 characters")
+def validate(line):
+    length = len(line)
+    if not (1 <= length <= 160):
+        raise ValueError(f"length {length}")
 
-def entry_path():
-    output_dir = os.environ.get('MAKEFUN_OUTPUT_DIR', '/output')
+def entry_path(output_dir=None):
+    if output_dir is None:
+        output_dir = os.environ.get('MAKEFUN_OUTPUT_DIR', '/output')
     os.makedirs(output_dir, exist_ok=True)
     return os.path.join(output_dir, 'entry.txt')
 
 def main():
-    validate()
+    validate(ENTRY_LINE)
     
     file_path = entry_path()
     with open(file_path, 'w', encoding='utf-8') as f:
